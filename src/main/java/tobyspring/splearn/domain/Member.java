@@ -1,11 +1,7 @@
 package tobyspring.splearn.domain;
 
-import lombok.Builder;
 import lombok.Getter;
 import lombok.ToString;
-
-import java.util.Objects;
-import java.util.regex.Pattern;
 
 import static java.util.Objects.requireNonNull;
 import static org.springframework.util.Assert.*;
@@ -26,12 +22,12 @@ public class Member {
     }
 
     // 파라미터가 너무 길어 실수를 줄이기 위한 방법 2. 정적 팩토리 + 파라미터 객체
-    public static Member create(MemberCreateRequest createRequest, PasswordEncoder passwordEncoder) {
+    public static Member register(MemberRegisterRequest registerRequest, PasswordEncoder passwordEncoder) {
         Member member = new Member();
 
-        member.email = new Email(requireNonNull(createRequest.email()));
-        member.nickname = requireNonNull(createRequest.nickname());
-        member.passwordHash = requireNonNull(passwordEncoder.encode(createRequest.password()));
+        member.email = new Email(requireNonNull(registerRequest.email()));
+        member.nickname = requireNonNull(registerRequest.nickname());
+        member.passwordHash = requireNonNull(passwordEncoder.encode(registerRequest.password()));
 
         member.status = MemberStatus.PENDING;
         return member;
