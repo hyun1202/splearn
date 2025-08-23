@@ -8,5 +8,4 @@ import tobyspring.splearn.domain.Member;
  */
 public interface MemberRepository extends Repository<Member, Long> {
     Member save(Member member);
-
 }
