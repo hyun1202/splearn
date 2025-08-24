@@ -4,21 +4,19 @@ import jakarta.persistence.EntityManager;
 import jakarta.transaction.Transactional;
 import jakarta.validation.ConstraintViolationException;
 import org.junit.jupiter.api.Test;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.context.annotation.Import;
-import org.springframework.test.context.TestConstructor;
 import tobyspring.splearn.SplearnTestConfiguration;
 import tobyspring.splearn.domain.*;
 
-import static org.assertj.core.api.Assertions.*;
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
 @SpringBootTest
 @Transactional
 @Import(SplearnTestConfiguration.class)
 //@TestConstructor(autowireMode = TestConstructor.AutowireMode.ALL)
-public record MemberRegisterTest(MemberRegister memberRegister,
-                                 EntityManager entityManager) {
+record MemberRegisterTest(MemberRegister memberRegister, EntityManager entityManager) {
 
     @Test
     void register(){
@@ -51,12 +49,12 @@ public record MemberRegisterTest(MemberRegister memberRegister,
 
     @Test
     void memberRegisterRequestFail(){
-        extracted(new MemberRegisterRequest("aaa@test.com", "aaa", "secret"));
-        extracted(new MemberRegisterRequest("aaa", "nickname", "secret"));
-        extracted(new MemberRegisterRequest("aaa@test.com", "nickname", "aaa"));
+        checkValidation(new MemberRegisterRequest("aaa@test.com", "aaa", "secret"));
+        checkValidation(new MemberRegisterRequest("aaa", "nickname", "secret"));
+        checkValidation(new MemberRegisterRequest("aaa@test.com", "nickname", "aaa"));
     }
 
-    private void extracted(MemberRegisterRequest invalid) {
+    private void checkValidation(MemberRegisterRequest invalid) {
         assertThatThrownBy(() -> memberRegister.register(invalid))
                 .isInstanceOf(ConstraintViolationException.class);
     }

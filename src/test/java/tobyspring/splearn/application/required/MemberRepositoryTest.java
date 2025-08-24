@@ -9,7 +9,7 @@ import tobyspring.splearn.domain.Member;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
-import static tobyspring.splearn.domain.MemberFixture.*;
+import static tobyspring.splearn.domain.MemberFixture.createMemberRegisterRequest;
 import static tobyspring.splearn.domain.MemberFixture.createPasswordEncoder;
 
 @DataJpaTest
