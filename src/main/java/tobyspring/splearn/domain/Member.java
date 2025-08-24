@@ -5,6 +5,8 @@ import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
+import org.hibernate.annotations.NaturalId;
+import org.hibernate.annotations.NaturalIdCache;
 
 import static java.util.Objects.requireNonNull;
 import static org.springframework.util.Assert.*;
@@ -13,11 +15,13 @@ import static org.springframework.util.Assert.*;
 @Getter
 @ToString
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
+@NaturalIdCache // 영속 컨텍스트 캐시 사용 가능 (원래는 id만 가능)
 public class Member {
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     @Embedded
+    @NaturalId  // 비즈니스적인 식별자(키)
     private Email email;
 
     private String nickname;
