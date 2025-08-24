@@ -1,6 +1,7 @@
 package tobyspring.splearn.application.provided;
 
 import jakarta.transaction.Transactional;
+import jakarta.validation.ConstraintViolationException;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -9,8 +10,7 @@ import org.springframework.test.context.TestConstructor;
 import tobyspring.splearn.SplearnTestConfiguration;
 import tobyspring.splearn.domain.*;
 
-import static org.assertj.core.api.Assertions.assertThat;
-import static org.assertj.core.api.Assertions.assertThatThrownBy;
+import static org.assertj.core.api.Assertions.*;
 
 @SpringBootTest
 @Transactional
@@ -34,4 +34,15 @@ public record MemberRegisterTest(MemberRegister memberRegister) {
                 .isInstanceOf(DuplicateEmailException.class);
     }
 
+    @Test
+    void memberRegisterRequestFail(){
+        extracted(new MemberRegisterRequest("aaa@test.com", "aaa", "secret"));
+        extracted(new MemberRegisterRequest("aaa", "nickname", "secret"));
+        extracted(new MemberRegisterRequest("aaa@test.com", "nickname", "aaa"));
+    }
+
+    private void extracted(MemberRegisterRequest invalid) {
+        assertThatThrownBy(() -> memberRegister.register(invalid))
+                .isInstanceOf(ConstraintViolationException.class);
+    }
 }
