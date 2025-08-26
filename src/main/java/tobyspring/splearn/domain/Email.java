@@ -1,6 +1,8 @@
 package tobyspring.splearn.domain;
 
+import jakarta.persistence.Column;
 import jakarta.persistence.Embeddable;
+import org.hibernate.annotations.Comment;
 
 import java.util.regex.Pattern;
 

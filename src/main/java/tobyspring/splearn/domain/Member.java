@@ -5,6 +5,7 @@ import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
+import org.hibernate.annotations.Comment;
 import org.hibernate.annotations.NaturalId;
 import org.hibernate.annotations.NaturalIdCache;
 
@@ -13,14 +14,10 @@ import static org.springframework.util.Assert.state;
 
 @Entity
 @Getter
-@ToString
+@ToString(callSuper = true)
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @NaturalIdCache // 영속 컨텍스트 캐시 사용 가능 (원래는 id만 가능)
-public class Member {
-    @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
-
-    @Embedded
+public class Member extends AbstractEntity {
     @NaturalId  // 비즈니스적인 식별자(키)
     private Email email;
 
@@ -28,7 +25,6 @@ public class Member {
 
     private String passwordHash;
 
-    @Enumerated(EnumType.STRING)
     private MemberStatus status;
 
     // 파라미터가 너무 길어 실수를 줄이기 위한 방법 2. 정적 팩토리 + 파라미터 객체
