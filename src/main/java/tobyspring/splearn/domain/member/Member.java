@@ -7,6 +7,7 @@ import lombok.NoArgsConstructor;
 import lombok.ToString;
 import org.hibernate.annotations.NaturalId;
 import org.hibernate.annotations.NaturalIdCache;
+import org.springframework.util.Assert;
 import tobyspring.splearn.domain.AbstractEntity;
 import tobyspring.splearn.domain.shared.Email;
 
@@ -65,11 +66,8 @@ public class Member extends AbstractEntity {
         return passwordEncoder.matches(password, passwordHash);
     }
 
-    public void changeNickname(String nickname) {
-        this.nickname = requireNonNull(nickname);
-    }
-
     public void updateInfo(MemberInfoUpdateRequest updateRequest) {
+        Assert.state(isActive(), "활성화 되지 않은 상태에선 회원정보를 수정할 수 없습니다.");
         this.nickname = Objects.requireNonNull(updateRequest.nickname());
 
         this.detail.updateInfo(updateRequest);

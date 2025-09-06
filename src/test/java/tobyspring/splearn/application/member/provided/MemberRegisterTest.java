@@ -12,6 +12,8 @@ import tobyspring.splearn.domain.member.*;
 import static org.assertj.core.api.Assertions.*;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
+import static org.assertj.core.api.Assertions.assertThatThrownBy;
+import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
 @SpringBootTest
 @Transactional
@@ -69,6 +71,13 @@ record MemberRegisterTest(MemberRegister memberRegister, EntityManager entityMan
         return member;
     }
 
+    private Member registerMember(String email) {
+        Member member = memberRegister.register(MemberFixture.createMemberRegisterRequest(email));
+        entityManager.flush();
+        entityManager.clear();
+        return member;
+    }
+
     @Test
     void updateInfo(){
         Member member = registerMember();
@@ -81,6 +90,37 @@ record MemberRegisterTest(MemberRegister memberRegister, EntityManager entityMan
         member = memberRegister.updateInfo(member.getId(), new MemberInfoUpdateRequest("nickname", "profile111", "자기소개"));
 
         assertThat(member.getDetail().getProfile().address()).isEqualTo("profile111");
+    }
+
+    @Test
+    void updateInfoFail(){
+        Member member = registerMember();
+        memberRegister.activate(member.getId());
+        memberRegister.updateInfo(member.getId(), new MemberInfoUpdateRequest("nickname", "profile111", "자기소개"));
+
+        Member member2 = registerMember("test2@test.com");
+        memberRegister.activate(member2.getId());
+        entityManager.flush();
+        entityManager.clear();
+
+        // member2는 기존의 멤버와 같은 프로필을 사용할 수 없다.
+        assertThatThrownBy(() -> {
+            memberRegister.updateInfo(member2.getId(), new MemberInfoUpdateRequest("nickname", "profile111", "Introduction"));
+        }).isInstanceOf(DuplicateProfileException.class);
+
+        // 다른 프로필 주소로는 변경 가능하다.
+        memberRegister.updateInfo(member2.getId(), new MemberInfoUpdateRequest("nickname", "profile1121", "Introduction"));
+
+        // 기존 프로필 주소를 바꾸는 것도 가능
+        memberRegister.updateInfo(member.getId(), new MemberInfoUpdateRequest("nickname", "profile111", "Introduction"));
+
+        // 프로필 주소를 제거하는 것도 가능
+        memberRegister.updateInfo(member.getId(), new MemberInfoUpdateRequest("nickname", "", "Introduction"));
+
+        // 프로필 주소 중복은 허용하지 않음
+        assertThatThrownBy(() -> {
+            memberRegister.updateInfo(member.getId(), new MemberInfoUpdateRequest("nickname", "profile1121", "Introduction"));
+        }).isInstanceOf(DuplicateProfileException.class);
     }
 
     @Test

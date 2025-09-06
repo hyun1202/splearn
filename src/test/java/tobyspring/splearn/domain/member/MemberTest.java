@@ -6,6 +6,7 @@ import org.junit.jupiter.api.Test;
 import static org.assertj.core.api.Assertions.*;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
+import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static tobyspring.splearn.domain.member.MemberFixture.createMemberRegisterRequest;
 import static tobyspring.splearn.domain.member.MemberFixture.createPasswordEncoder;
 
@@ -75,15 +76,6 @@ class MemberTest {
     }
     
     @Test
-    void changeNickname(){
-        assertThat(member.getNickname()).isEqualTo("test");
-
-        member.changeNickname("aaa");
-
-        assertThat(member.getNickname()).isEqualTo("aaa");
-    }
-
-    @Test
     void changePassword(){
         member.changePassword("verysecret", passwordEncoder);
         assertThat(member.verifyPassword("secret", passwordEncoder));
@@ -122,5 +114,13 @@ class MemberTest {
         assertThat(member.getNickname()).isEqualTo(request.nickname());
         assertThat(member.getDetail().getProfile().address()).isEqualTo(request.profileAddress());
         assertThat(member.getDetail().getIntroduction()).isEqualTo(request.introduction());
+    }
+    
+    @Test
+    void updateInfoFail(){
+        assertThatThrownBy(() -> {
+            var request = new MemberInfoUpdateRequest("nickname", "address11", "자기소개");
+            member.updateInfo(request);
+        }).isInstanceOf(IllegalStateException.class);
     }
 }
