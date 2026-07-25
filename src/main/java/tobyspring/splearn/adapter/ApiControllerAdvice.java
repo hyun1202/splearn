@@ -6,6 +6,7 @@ import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
 import tobyspring.splearn.domain.member.DuplicateEmailException;
+import tobyspring.splearn.domain.member.DuplicateProfileException;
 
 import java.time.LocalDateTime;
 
@@ -16,8 +17,8 @@ public class ApiControllerAdvice extends ResponseEntityExceptionHandler {
         return getProblemDetail(HttpStatus.INTERNAL_SERVER_ERROR, exception);
     }
 
-    @ExceptionHandler(DuplicateEmailException.class)
-    public ProblemDetail emailExceptionHandler(DuplicateEmailException exception) {
+    @ExceptionHandler({DuplicateEmailException.class, DuplicateProfileException.class})
+    public ProblemDetail duplicateExceptionHandler(RuntimeException exception) {
         // RFC9457
         // HTTP 응답코드로는 어떤 에러인지 정확히 알 수 없다.
         return getProblemDetail(HttpStatus.CONFLICT, exception);

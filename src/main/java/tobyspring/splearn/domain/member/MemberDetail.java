@@ -45,7 +45,13 @@ public class MemberDetail extends AbstractEntity {
     }
 
     public void updateInfo(MemberInfoUpdateRequest updateRequest) {
-        this.profile = new Profile(updateRequest.profileAddress());
+        this.profile = convertToProfile(updateRequest.profileAddress());
         this.introduction = Objects.requireNonNull(updateRequest.introduction());
+    }
+
+    private Profile convertToProfile(String profileAddress) {
+        if (profileAddress == null || profileAddress.isEmpty()) return null;
+
+        return new Profile(profileAddress);
     }
 }
