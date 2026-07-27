@@ -6,7 +6,7 @@ import tobyspring.splearn.application.member.provided.MemberRegisterRequest;
 public class MemberFixture {
 
     public static MemberRegisterRequest createMemberRegisterRequest(String email) {
-        return new MemberRegisterRequest(email, "test", "secret");
+        return new MemberRegisterRequest(email, "test", "secretsecret");
     }
 
     public static MemberRegisterRequest createMemberRegisterRequest() {
