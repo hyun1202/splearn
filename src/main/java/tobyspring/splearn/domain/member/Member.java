@@ -34,7 +34,7 @@ public class Member extends AbstractEntity {
     private MemberDetail detail;
 
     // 파라미터가 너무 길어 실수를 줄이기 위한 방법 2. 정적 팩토리 + 파라미터 객체
-    public static Member register(MemberRegisterRequest registerRequest, PasswordEncoder passwordEncoder) {
+    public static Member register(MemberRegisterInfo registerRequest, PasswordEncoder passwordEncoder) {
         Member member = new Member();
 
         member.email = new Email(requireNonNull(registerRequest.email()));
