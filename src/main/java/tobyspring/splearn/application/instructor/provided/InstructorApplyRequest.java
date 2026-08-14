@@ -1,4 +1,6 @@
 package tobyspring.splearn.application.instructor.provided;
 
-public record InstructorApplyRequest() {
+public record InstructorApplyRequest(
+        Long memberId
+) {
 }
