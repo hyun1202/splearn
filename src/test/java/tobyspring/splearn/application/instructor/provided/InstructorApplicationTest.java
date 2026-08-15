@@ -8,6 +8,7 @@ import org.springframework.transaction.annotation.Transactional;
 import tobyspring.splearn.application.instructor.required.InstructorRepository;
 import tobyspring.splearn.application.member.required.MemberRepository;
 import tobyspring.splearn.domain.instructor.Instructor;
+import tobyspring.splearn.domain.instructor.InstructorFixture;
 import tobyspring.splearn.domain.instructor.InstructorStatus;
 import tobyspring.splearn.domain.member.Member;
 import tobyspring.splearn.domain.member.MemberFixture;
@@ -28,7 +29,7 @@ class InstructorApplicationTest {
         Member member = MemberFixture.createActiveMember();
         memberRepository.save(member);
 
-        Instructor instructor = instructorApplication.apply(new InstructorApplyRequest(member.getId()));
+        Instructor instructor = instructorApplication.apply(InstructorFixture.createApplyRequest(member));
         assertThat(instructor.getId()).isNotNull();
         assertThat(instructor.getStatus()).isEqualTo(InstructorStatus.PENDING);
     }
@@ -37,10 +38,10 @@ class InstructorApplicationTest {
     void duplicateApply() {
         Member member = MemberFixture.createActiveMember();
         memberRepository.save(member);
-        instructorApplication.apply(new InstructorApplyRequest(member.getId()));
+        instructorApplication.apply(InstructorFixture.createApplyRequest(member));
 
-        assertThatThrownBy(() -> instructorApplication.apply(new InstructorApplyRequest(member.getId())))
-                .isInstanceOf(DataIntegrityViolationException.class);
+        assertThatThrownBy(() -> instructorApplication.apply(InstructorFixture.createApplyRequest(member)))
+                .isInstanceOf(DuplicateInstructorApplicationException.class);
     }
 
     @Test
@@ -61,7 +62,7 @@ class InstructorApplicationTest {
         Member member = MemberFixture.createActiveMember();
         memberRepository.save(member);
 
-        return instructorApplication.apply(new InstructorApplyRequest(member.getId()));
+        return instructorApplication.apply(InstructorFixture.createApplyRequest(member));
     }
 
 }
