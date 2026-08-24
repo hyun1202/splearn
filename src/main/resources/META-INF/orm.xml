@@ -36,7 +36,7 @@
             </basic>
             <one-to-one name="detail" fetch="LAZY">
                 <cascade>
-                    <cascade-all/>
+                    <cascade-all />
                 </cascade>
             </one-to-one>
             <embedded name="email">
@@ -67,6 +67,42 @@
         </attributes>
     </entity>
 
+    <entity class="tobyspring.splearn.domain.instructor.Instructor">
+        <attributes>
+            <basic name="status">
+                <column name="status" length="20"/>
+                <enumerated>STRING</enumerated>
+            </basic>
+            <one-to-one name="member" fetch="LAZY"/>
+        </attributes>
+    </entity>
+
+    <entity class="tobyspring.splearn.domain.course.Course">
+        <attributes>
+            <basic name="title">
+                <column name="title" nullable="false" length="100"/>
+            </basic>
+            <basic name="status">
+                <column name="status" nullable="false" length="20"/>
+                <enumerated>STRING</enumerated>
+            </basic>
+            <many-to-one name="instructor" optional="false" fetch="LAZY"/>
+            <one-to-one name="detail" optional="false" fetch="LAZY">
+                <cascade>
+                    <cascade-all/>
+                </cascade>
+            </one-to-one>
+        </attributes>
+    </entity>
+
+    <entity class="tobyspring.splearn.domain.course.CourseDetail">
+        <attributes>
+            <basic name="description">
+                <column name="description" length="500"/>
+            </basic>
+        </attributes>
+    </entity>
+
     <embeddable class="tobyspring.splearn.domain.member.Profile">
         <attributes>
             <basic name="address">
@@ -82,5 +118,4 @@
             </basic>
         </attributes>
     </embeddable>
-
 </entity-mappings>

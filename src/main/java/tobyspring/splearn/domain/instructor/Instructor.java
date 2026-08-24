@@ -15,11 +15,10 @@ import tobyspring.splearn.domain.member.Member;
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class Instructor extends AbstractEntity {
 
-    @OneToOne(fetch = FetchType.LAZY)
+    @OneToOne
     Member member;
 
     @Enumerated(EnumType.STRING)
-    @Column(length = 20)
     InstructorStatus status;
 
     public static Instructor apply(Member member) {

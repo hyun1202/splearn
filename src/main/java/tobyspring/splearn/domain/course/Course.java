@@ -18,17 +18,15 @@ import static org.springframework.util.Assert.state;
 @ToString(callSuper = true, exclude = {})
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class Course extends AbstractEntity {
-    @ManyToOne(optional = false, fetch = FetchType.LAZY)
+    @ManyToOne
     Instructor instructor;
 
-    @Column(nullable = false, length = 100)
     String title;
 
     @Enumerated(EnumType.STRING)
-    @Column(nullable = false, length = 20)
     CourseStatus status;
 
-    @OneToOne(optional = false, cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @OneToOne
     CourseDetail detail;
 
     public Course(Instructor instructor, String title, @Nullable String description) {
