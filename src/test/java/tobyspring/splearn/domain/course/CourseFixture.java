@@ -5,9 +5,14 @@ import tobyspring.splearn.domain.instructor.InstructorFixture;
 
 public class CourseFixture {
     public static Course createCourse() {
-        Instructor instructor = InstructorFixture.createActiveInstructor();
+        return createCourse(InstructorFixture.createActiveInstructor());
+    }
 
-        Course course = new Course(instructor, "title", "description");
-        return course;
+    public static Course createCourse(Instructor instructor) {
+        return createCourse(instructor, "title");
+    }
+
+    public static Course createCourse(Instructor instructor, String title) {
+        return new Course(instructor, title, "description");
     }
 }
