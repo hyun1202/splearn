@@ -7,6 +7,12 @@ import tobyspring.splearn.support.exception.ValidationException;
 public interface CourseValidator {
     void validateForCreate(Instructor instructor, CourseCreateRequest request) throws ValidationException;
 
-    void validateForUpdate(Course course, CourseInfoUpdateRequest updateRequest);
+    void validateForUpdate(Course course, CourseInfoUpdateRequest updateRequest) throws ValidationException;
+
+    void validateForReview(Course course) throws ValidationException;
+
+    void validateForPublish(Course course) throws ValidationException;
+
+    void validateForArchive(Course course) throws ValidationException;
 }
 

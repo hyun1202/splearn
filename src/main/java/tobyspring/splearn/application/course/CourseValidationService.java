@@ -45,6 +45,21 @@ public class CourseValidationService implements CourseValidator {
         }
     }
 
+    @Override
+    public void validateForReview(Course course) throws ValidationException {
+
+    }
+
+    @Override
+    public void validateForPublish(Course course) throws ValidationException {
+
+    }
+
+    @Override
+    public void validateForArchive(Course course) throws ValidationException {
+
+    }
+
     private void checkBannedWords(String text, ArrayList<String> errors) {
 
         // TODO
