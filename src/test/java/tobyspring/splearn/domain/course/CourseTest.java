@@ -74,4 +74,12 @@ class CourseTest {
         assertThatThrownBy(() -> course.archive())
                 .isInstanceOf(IllegalStateException.class);
     }
+
+    @Test
+    void updateInfo() {
+        course.updateInfo(new CourseUpdateInfo("Clean Spring 3", "Updated Description"));
+
+        assertThat(course.getTitle()).isEqualTo("Clean Spring 3");
+        assertThat(course.getDetail().getDescription()).isEqualTo("Updated Description");
+    }
 }

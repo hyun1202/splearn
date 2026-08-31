@@ -7,6 +7,7 @@ import tobyspring.splearn.domain.instructor.Instructor;
 import tobyspring.splearn.domain.instructor.InstructorFixture;
 import tobyspring.splearn.domain.member.Member;
 import tobyspring.splearn.domain.member.MemberFixture;
+import tobyspring.splearn.domain.shared.Email;
 import tobyspring.splearn.support.stereotype.ApplicationServiceTest;
 
 @ApplicationServiceTest
@@ -16,6 +17,12 @@ public class BaseApplicationServiceTest {
 
     protected Member member;
     protected Instructor instructor;
+
+    private static final String EMAIL = "test@test.com";
+
+    protected Instructor prepareInstructor() {
+        return prepareInstructor(EMAIL);
+    }
 
     protected Instructor prepareInstructor(String email) {
         member = prepareMember(email);
@@ -33,6 +40,6 @@ public class BaseApplicationServiceTest {
     }
 
     protected Member prepareMember() {
-        return prepareMember("test@test.com");
+        return prepareMember(EMAIL);
     }
 }

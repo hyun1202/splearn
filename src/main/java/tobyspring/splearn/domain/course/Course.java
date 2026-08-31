@@ -66,4 +66,9 @@ public class Course extends AbstractEntity {
     public void ensurePublished() {
         state(status == CourseStatus.PUBLISHED, "PUBLISHED 상태가 아닙니다.");
     }
+
+    public void updateInfo(CourseUpdateInfo updateInfo) {
+        this.title = Objects.requireNonNull(updateInfo.title());
+        this.detail.updateInfo(updateInfo);
+    }
 }

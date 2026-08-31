@@ -1,10 +1,11 @@
 package tobyspring.splearn.application.course;
 
-import jakarta.validation.constraints.Size;
 import lombok.RequiredArgsConstructor;
 import tobyspring.splearn.application.course.provided.CourseCreateRequest;
+import tobyspring.splearn.application.course.provided.CourseInfoUpdateRequest;
 import tobyspring.splearn.application.course.provided.CourseValidator;
 import tobyspring.splearn.application.course.required.CourseRepository;
+import tobyspring.splearn.domain.course.Course;
 import tobyspring.splearn.domain.instructor.Instructor;
 import tobyspring.splearn.support.exception.ValidationException;
 import tobyspring.splearn.support.stereotype.ApplicationService;
@@ -22,9 +23,22 @@ public class CourseValidationService implements CourseValidator {
 
         ArrayList<String> errors = new ArrayList<>();
 
-        checkTitleDuplication(instructor, request.title(), errors);
+        checkTitleDuplicationForCreate(instructor, request.title(), errors);
         checkBannedWords(request.title(), errors);
         checkBannedWords(request.description(), errors);
+
+        if (!errors.isEmpty()) {
+            throw new ValidationException(errors);
+        }
+    }
+
+    @Override
+    public void validateForUpdate(Course course, CourseInfoUpdateRequest updateRequest) throws ValidationException {
+        ArrayList<String> errors = new ArrayList<>();
+
+        checkTitleDuplicationForUpdate(course, course.getInstructor(), updateRequest.title(), errors);
+        checkBannedWords(updateRequest.title(), errors);
+        checkBannedWords(updateRequest.description(), errors);
 
         if (!errors.isEmpty()) {
             throw new ValidationException(errors);
@@ -36,9 +50,17 @@ public class CourseValidationService implements CourseValidator {
         // TODO
     }
 
-    private void checkTitleDuplication(Instructor instructor, String title, ArrayList<String> errors) {
+    private void checkTitleDuplicationForCreate(Instructor instructor, String title, ArrayList<String> errors) {
         if (courseRepository.findByInstructorAndTitle(instructor, title).isPresent()) {
             errors.add("이미 사용 중인 강의 제목입니다." + title);
         }
+    }
+
+    private void checkTitleDuplicationForUpdate(Course course, Instructor instructor, String title, ArrayList<String> errors) {
+        courseRepository.findByInstructorAndTitle(instructor, title).ifPresent(found -> {
+            if (!found.equals(course)) {
+                errors.add("이미 사용 중인 강의 제목입니다. " + title);
+            }
+        });
     }
 }

@@ -36,4 +36,8 @@ public class CourseDetail extends AbstractEntity {
     public void archive() {
         this.archivedAt = LocalDateTime.now();
     }
+
+    public void updateInfo(CourseUpdateInfo updateInfo) {
+        this.description = updateInfo.description();
+    }
 }

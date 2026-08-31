@@ -9,6 +9,7 @@ import tobyspring.splearn.support.exception.ValidationException;
 import tobyspring.splearn.support.stereotype.ApplicationServiceTest;
 import tobyspring.splearn.support.test.BaseApplicationServiceTest;
 
+import static org.assertj.core.api.Assertions.*;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
@@ -39,5 +40,24 @@ class CourseValidatorTest extends BaseApplicationServiceTest {
 
         // 강사가 다른 경우 제목 중복 상관 없음
         courseValidator.validateForCreate(instructor2, new CourseCreateRequest(instructor2.getId(), "Spring Spring", null));
+    }
+
+    @Test
+    void titleDuplicationForUpdate() {
+        var instructor1 = prepareInstructor("test@test.com");
+        var instructor2 = prepareInstructor("test2@test.com");
+
+        Course course1_1 = courseRepository.save(CourseFixture.createCourse(instructor1, "Clean Spring"));
+        Course course1_2 = courseRepository.save(CourseFixture.createCourse(instructor1, "Clean Code"));
+        Course course2 = courseRepository.save(CourseFixture.createCourse(instructor2, "Clean Spring"));
+
+        // title 변경 없이 update - OK
+        courseValidator.validateForUpdate(course1_1, CourseFixture.createCourseInfoUpdateRequest(course1_1.getTitle()));
+        
+        // title 변경 시 중복 발생 - FAIL
+        assertThatThrownBy(() -> courseValidator.validateForUpdate(course1_1,CourseFixture.createCourseInfoUpdateRequest(course1_2.getTitle())))
+                .isInstanceOfSatisfying(ValidationException.class, e -> {
+                    assertThat(e.getErrors()).hasSize(1);
+                });
     }
 }
