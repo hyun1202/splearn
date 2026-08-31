@@ -8,6 +8,7 @@ import tobyspring.splearn.application.member.provided.MemberRegister;
 import tobyspring.splearn.domain.instructor.Instructor;
 import tobyspring.splearn.domain.member.Member;
 import tobyspring.splearn.domain.member.MemberFixture;
+import tobyspring.splearn.support.test.BaseApplicationServiceTest;
 
 import static org.assertj.core.api.Assertions.*;
 import static org.assertj.core.api.Assertions.assertThat;
@@ -16,15 +17,14 @@ import static org.junit.jupiter.api.Assertions.*;
 @SpringBootTest
 @Transactional
 @RequiredArgsConstructor
-class InstructorFinderTest {
+class InstructorFinderTest extends BaseApplicationServiceTest {
     final InstructorFinder instructorFinder;
     final InstructorApplication instructorApplication;
     final MemberRegister memberRegister;
 
     @Test
     void findByMember() {
-        Member member = memberRegister.register(MemberFixture.createMemberRegisterRequest());
-        member = memberRegister.activate(member.getId());
+        prepareMember();
 
         Instructor instructor = instructorApplication.apply(new InstructorApplyRequest(member.getId()));
 

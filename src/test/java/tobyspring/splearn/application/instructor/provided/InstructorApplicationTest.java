@@ -12,6 +12,7 @@ import tobyspring.splearn.domain.instructor.InstructorFixture;
 import tobyspring.splearn.domain.instructor.InstructorStatus;
 import tobyspring.splearn.domain.member.Member;
 import tobyspring.splearn.domain.member.MemberFixture;
+import tobyspring.splearn.support.test.BaseApplicationServiceTest;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
@@ -19,15 +20,14 @@ import static org.assertj.core.api.Assertions.assertThatThrownBy;
 @SpringBootTest
 @Transactional
 @RequiredArgsConstructor
-class InstructorApplicationTest {
+class InstructorApplicationTest extends BaseApplicationServiceTest {
     final InstructorApplication instructorApplication;
     final InstructorRepository instructorRepository;
     final MemberRepository memberRepository;
 
     @Test
     void apply() {
-        Member member = MemberFixture.createActiveMember();
-        memberRepository.save(member);
+        prepareMember();
 
         Instructor instructor = instructorApplication.apply(InstructorFixture.createApplyRequest(member));
         assertThat(instructor.getId()).isNotNull();
@@ -36,8 +36,8 @@ class InstructorApplicationTest {
 
     @Test
     void duplicateApply() {
-        Member member = MemberFixture.createActiveMember();
-        memberRepository.save(member);
+        prepareMember();
+
         instructorApplication.apply(InstructorFixture.createApplyRequest(member));
 
         assertThatThrownBy(() -> instructorApplication.apply(InstructorFixture.createApplyRequest(member)))
@@ -59,8 +59,7 @@ class InstructorApplicationTest {
     }
 
     private Instructor preparedPendingInstructor() {
-        Member member = MemberFixture.createActiveMember();
-        memberRepository.save(member);
+        prepareMember();
 
         return instructorApplication.apply(InstructorFixture.createApplyRequest(member));
     }

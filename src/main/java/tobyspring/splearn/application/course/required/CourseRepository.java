@@ -18,4 +18,6 @@ public interface CourseRepository extends Repository<Course, Long> {
        return findByInstructorId(instructor.getId());
     }
     List<Course> findByInstructorId(Long instructorId);
+
+    Optional<Course> findByInstructorAndTitle(Instructor instructor, String title);
 }
