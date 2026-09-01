@@ -3,7 +3,6 @@ package tobyspring.splearn.application.course.provided;
 import lombok.RequiredArgsConstructor;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import tobyspring.splearn.domain.course.Course;
 import tobyspring.splearn.domain.course.CourseStatus;
 import tobyspring.splearn.support.stereotype.ApplicationServiceTest;
 import tobyspring.splearn.support.test.BaseApplicationServiceTest;

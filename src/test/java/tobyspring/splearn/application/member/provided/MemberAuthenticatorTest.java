@@ -10,13 +10,12 @@ import tobyspring.splearn.SplearnTestConfiguration;
 import tobyspring.splearn.domain.member.Member;
 import tobyspring.splearn.domain.member.MemberFixture;
 import tobyspring.splearn.domain.member.MemberLoginRequest;
+import tobyspring.splearn.support.stereotype.ApplicationServiceTest;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
 
-@SpringBootTest
-@Transactional
-@Import(SplearnTestConfiguration.class)
+@ApplicationServiceTest
 @RequiredArgsConstructor
 class MemberAuthenticatorTest {
     final MemberAuthenticator memberAuthenticator;

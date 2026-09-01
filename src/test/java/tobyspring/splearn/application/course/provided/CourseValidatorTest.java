@@ -9,7 +9,6 @@ import tobyspring.splearn.support.exception.ValidationException;
 import tobyspring.splearn.support.stereotype.ApplicationServiceTest;
 import tobyspring.splearn.support.test.BaseApplicationServiceTest;
 
-import static org.assertj.core.api.Assertions.*;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 

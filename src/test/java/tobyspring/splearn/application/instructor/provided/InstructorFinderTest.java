@@ -8,14 +8,14 @@ import tobyspring.splearn.application.member.provided.MemberRegister;
 import tobyspring.splearn.domain.instructor.Instructor;
 import tobyspring.splearn.domain.member.Member;
 import tobyspring.splearn.domain.member.MemberFixture;
+import tobyspring.splearn.support.stereotype.ApplicationServiceTest;
 import tobyspring.splearn.support.test.BaseApplicationServiceTest;
 
 import static org.assertj.core.api.Assertions.*;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.*;
 
-@SpringBootTest
-@Transactional
+@ApplicationServiceTest
 @RequiredArgsConstructor
 class InstructorFinderTest extends BaseApplicationServiceTest {
     final InstructorFinder instructorFinder;

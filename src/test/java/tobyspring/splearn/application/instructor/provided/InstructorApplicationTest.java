@@ -12,13 +12,13 @@ import tobyspring.splearn.domain.instructor.InstructorFixture;
 import tobyspring.splearn.domain.instructor.InstructorStatus;
 import tobyspring.splearn.domain.member.Member;
 import tobyspring.splearn.domain.member.MemberFixture;
+import tobyspring.splearn.support.stereotype.ApplicationServiceTest;
 import tobyspring.splearn.support.test.BaseApplicationServiceTest;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
-@SpringBootTest
-@Transactional
+@ApplicationServiceTest
 @RequiredArgsConstructor
 class InstructorApplicationTest extends BaseApplicationServiceTest {
     final InstructorApplication instructorApplication;

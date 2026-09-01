@@ -11,10 +11,9 @@ import tobyspring.splearn.domain.member.Member;
 import tobyspring.splearn.domain.member.MemberLoginRequest;
 import tobyspring.splearn.domain.member.PasswordEncoder;
 import tobyspring.splearn.domain.shared.Email;
+import tobyspring.splearn.support.stereotype.ValidatedApplicationService;
 
-@Service
-@Transactional
-@Validated
+@ValidatedApplicationService
 @RequiredArgsConstructor
 public class MemberAuthenticationService implements MemberAuthenticator {
     private final MemberRepository memberRepository;

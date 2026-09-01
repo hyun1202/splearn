@@ -20,17 +20,13 @@ import tobyspring.splearn.domain.member.Member;
 import tobyspring.splearn.domain.member.MemberFixture;
 import tobyspring.splearn.application.member.provided.MemberRegisterRequest;
 import tobyspring.splearn.domain.member.MemberStatus;
+import tobyspring.splearn.support.stereotype.WebApiAdapterTest;
 
 import java.io.UnsupportedEncodingException;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-@SpringBootTest
-@AutoConfigureMockMvc
-// test의 @Transactional로 롤백이 안되는 케이스
-// 1. nested, requires_new와 같은 트랜잭션 전파 속성의 경우, 새로 만든 트랜잭션은 롤백이 안됨
-// 2. 비동기의 경우
-@Transactional
+@WebApiAdapterTest
 @RequiredArgsConstructor
 public class MemberApiTest {
     final MockMvcTester mvcTester;

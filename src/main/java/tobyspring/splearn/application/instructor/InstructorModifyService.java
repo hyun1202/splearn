@@ -1,9 +1,6 @@
 package tobyspring.splearn.application.instructor;
 
-import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
-import org.springframework.stereotype.Service;
-import org.springframework.validation.annotation.Validated;
 import tobyspring.splearn.application.instructor.provided.DuplicateInstructorApplicationException;
 import tobyspring.splearn.application.instructor.provided.InstructorApplication;
 import tobyspring.splearn.application.instructor.provided.InstructorApplyRequest;
@@ -12,11 +9,10 @@ import tobyspring.splearn.application.instructor.required.InstructorRepository;
 import tobyspring.splearn.application.member.provided.MemberFinder;
 import tobyspring.splearn.domain.instructor.Instructor;
 import tobyspring.splearn.domain.member.Member;
+import tobyspring.splearn.support.stereotype.ValidatedApplicationService;
 
-@Service
-@Transactional
+@ValidatedApplicationService
 @RequiredArgsConstructor
-@Validated
 public class InstructorModifyService implements InstructorApplication {
     private final InstructorRepository instructorRepository;
     private final MemberFinder memberFinder;

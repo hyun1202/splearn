@@ -7,9 +7,7 @@ import tobyspring.splearn.domain.course.CourseFixture;
 import tobyspring.splearn.support.stereotype.ApplicationServiceTest;
 import tobyspring.splearn.support.test.BaseApplicationServiceTest;
 
-import static org.assertj.core.api.Assertions.*;
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.junit.jupiter.api.Assertions.*;
 
 @ApplicationServiceTest
 @RequiredArgsConstructor
