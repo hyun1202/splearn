@@ -7,7 +7,7 @@ import tobyspring.splearn.domain.member.MemberRegisterInfo;
 public record MemberRegisterRequest(
         @Email String email,
         @Size(min = 4, max = 20) String nickname,
-        @Size(min = 6, max = 100) String password
+        @Size(min = 8, max = 100) String password
 ) {
     public MemberRegisterInfo toInfo() {
         return new MemberRegisterInfo(email, nickname, password);

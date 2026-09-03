@@ -61,9 +61,10 @@ public class MemberApiTest {
 
     @Test
     void duplicateEmail() throws JsonProcessingException {
-        memberRegister.register(MemberFixture.createMemberRegisterRequest());
+        MemberRegisterRequest memberRegisterRequest = MemberFixture.createMemberRegisterRequest();
+        memberRegister.register(memberRegisterRequest);
 
-        MemberRegisterRequest request = MemberFixture.createMemberRegisterRequest();
+        MemberRegisterRequest request = memberRegisterRequest;
         String requestJson = objectMapper.writeValueAsString(request);
 
         MvcTestResult result = mvcTester.post()

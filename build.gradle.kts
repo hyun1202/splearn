@@ -46,6 +46,8 @@ dependencies {
     testRuntimeOnly("org.junit.platform:junit-platform-launcher")
     testImplementation("org.junit-pioneer:junit-pioneer:2.3.0")
     testImplementation("org.mockito:mockito-core:5.18.0")
+    testImplementation("com.tngtech.archunit:archunit-junit5:1.4.1")
+    testImplementation("org.instancio:instancio-core:6.0.0-RC2")
     mockitoAgent("org.mockito:mockito-core:5.18.0") {isTransitive = false}
 }
 
